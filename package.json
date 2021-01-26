@@ -2,7 +2,8 @@
   "name": "serverless-rate-limit",
   "version": "1.0.0",
   "description": "Rate limit your API's (or something else) using a combination centralized and decentralized data source",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "directories": {
     "lib": "lib"
   },
@@ -21,9 +22,9 @@
     "type": "git",
     "url": "git+https://github.com/admirkadriu/serverless-rate-limit.git"
   },
-  "keywords": [],
+  "keywords": ["serverless", "lambda", "rate-limit", "DynamoDB"],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/admirkadriu/serverless-rate-limit/issues"
   },
