@@ -1,6 +1,6 @@
 {
   "name": "serverless-rate-limit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Rate limit your API's (or something else) using a combination centralized and decentralized data source",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -57,6 +57,8 @@
   ],
   "jest": {
     "preset": "ts-jest",
-    "testPathIgnorePatterns": ["lib"]
+    "testPathIgnorePatterns": [
+      "lib"
+    ]
   }
 }
