@@ -36,7 +36,6 @@
   "homepage": "https://github.com/admirkadriu/serverless-rate-limit#readme",
   "dependencies": {
     "aws-sdk": "2.643.0",
-    "http-status": "1.5.0",
     "node-cache": "5.1.2"
   },
   "devDependencies": {
