@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "incremental": false,
+    "module": "commonjs",
+    "allowJs": true,
+    "sourceMap": true,
+    "outDir": "./lib",
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "esModuleInterop": true,
+    "noUnusedLocals": true,
+    "target": "es6",
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "preserveConstEnums": true
+  },
+  "include": ["src"],
+  "exclude": [
+    "node_modules",
+    "**/__tests__/*"
+  ]
+}
