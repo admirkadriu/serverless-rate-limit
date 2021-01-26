@@ -1,7 +1,7 @@
 {
   "name": "serverless-rate-limit",
   "version": "1.0.0",
-  "description": "",
+  "description": "Rate limit your API's (or something else) using a combination centralized and decentralized data source",
   "main": "index.js",
   "directories": {
     "lib": "lib"
@@ -10,7 +10,12 @@
     "test": "jest --config jestconfig.json",
     "build": "tsc",
     "lint": "eslint src/ --ext .js,.ts,.jsx,.tsx",
-    "lint-fix": "eslint src/ --ext .js,.ts,.jsx,.tsx --fix"
+    "lint-fix": "eslint src/ --ext .js,.ts,.jsx,.tsx --fix",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint-fix",
+    "preversion": "npm run lint-fix",
+    "version": "git add -A src",
+    "postversion" : "git push && git push --tags"
   },
   "repository": {
     "type": "git",
