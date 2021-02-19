@@ -42,11 +42,11 @@ export default class RateLimit {
    */
   async isLimitReached(
     id: string,
-  ): Promise<boolean> {
+  ): Promise<[boolean, string]> {
     const blockedUser = localBlockedCache.get<boolean>(id);
 
     if (blockedUser) {
-      return true;
+      return [true, null];
     }
 
     if (process.uptime() <= this.dbOnlySeconds) {
@@ -60,7 +60,7 @@ export default class RateLimit {
 
         localBlockedCache.set(id, true, ttl);
 
-        return true;
+        return [true, null];
       }
     } else {
       const keyCount = localCountCache.get<number>(id) || 0;
@@ -84,11 +84,11 @@ export default class RateLimit {
 
           localBlockedCache.set(id, true, ttl);
 
-          return true;
+          return [true, id];
         }
       }
     }
 
-    return false;
+    return [false, null];
   }
 }
