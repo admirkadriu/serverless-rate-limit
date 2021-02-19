@@ -1,6 +1,9 @@
 import NodeCache from 'node-cache';
 
+import { BlockType } from '../enum';
+
 import CounterProvider from './counterProvider';
+import { CounterItem } from './interfaces/CounterItem';
 import { RateLimitProps } from './interfaces/RateLimitProps';
 
 const localCountCache = new NodeCache();
@@ -42,11 +45,11 @@ export default class RateLimit {
    */
   async isLimitReached(
     id: string,
-  ): Promise<[boolean, string]> {
+  ): Promise<[boolean, BlockType]> {
     const blockedUser = localBlockedCache.get<boolean>(id);
 
     if (blockedUser) {
-      return [true, null];
+      return [true, BlockType.BlockedLocally];
     }
 
     if (process.uptime() <= this.dbOnlySeconds) {
@@ -60,7 +63,7 @@ export default class RateLimit {
 
         localBlockedCache.set(id, true, ttl);
 
-        return [true, null];
+        return [true, BlockType.BlockedOnDynamo];
       }
     } else {
       const keyCount = localCountCache.get<number>(id) || 0;
@@ -68,7 +71,7 @@ export default class RateLimit {
       localCountCache.set(id, keyCount + 1, 60);
 
       if (keyCount >= this.localCountStart) {
-        let counterItem;
+        let counterItem: CounterItem;
 
         if (keyCount % this.suspiciousRate === 0) {
           counterItem = await this.counterProvider.incrementSuspicious(id);
@@ -84,7 +87,7 @@ export default class RateLimit {
 
           localBlockedCache.set(id, true, ttl);
 
-          return [true, id];
+          return [true, BlockType.BlockedByCount];
         }
       }
     }
