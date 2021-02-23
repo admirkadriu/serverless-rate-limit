@@ -1,6 +1,6 @@
 {
   "name": "serverless-rate-limit",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "description": "Rate limit your API's (or something else) using a combination centralized and decentralized data source",
   "main": "lib/src/index.js",
   "types": "lib/src/index.d.ts",
