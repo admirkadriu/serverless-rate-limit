@@ -1,2 +1,6 @@
-export { default as RateLimit } from './RateLimit';
-export { default as BlockType } from './BlockType';
+import RateLimit from './RateLimit';
+import BlockType from './BlockType';
+
+export default RateLimit;
+
+export { RateLimit, BlockType };
