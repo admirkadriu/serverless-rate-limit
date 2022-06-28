@@ -152,8 +152,8 @@ export default class CounterProvider {
 
     return {
       id,
-      count: data.Item.count || 0,
-      suspiciousCount: data.Item.suspiciousCount || 0,
+      count: data.Item?.count || 0,
+      suspiciousCount: data.Item?.suspiciousCount || 0,
       exptime: Math.round(currentSeconds + this.counterExpireMinutes * 60),
     };
   }
