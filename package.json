@@ -35,7 +35,8 @@
   },
   "homepage": "https://github.com/admirkadriu/serverless-rate-limit#readme",
   "dependencies": {
-    "aws-sdk": "2.643.0",
+    "@aws-sdk/client-dynamodb": "3.347.0",
+    "@aws-sdk/lib-dynamodb": "3.347.0",
     "node-cache": "5.1.2"
   },
   "devDependencies": {
