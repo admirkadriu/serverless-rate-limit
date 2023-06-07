@@ -1,8 +1,9 @@
-import AWS from 'aws-sdk';
+import { DynamoDBDocument } from '@aws-sdk/lib-dynamodb';
+import { DynamoDB } from '@aws-sdk/client-dynamodb';
 
 import { CounterItem } from './interfaces/CounterItem';
 
-const Client = new AWS.DynamoDB.DocumentClient();
+const Client = DynamoDBDocument.from(new DynamoDB({}));
 
 export default class CounterProvider {
   private readonly table: string;
@@ -18,9 +19,7 @@ export default class CounterProvider {
     this.counterExpireMinutes = counterExpireMinutes;
   }
 
-  async incrementSuspicious(
-    id: string,
-  ): Promise<CounterItem> {
+  async incrementSuspicious(id: string): Promise<CounterItem> {
     const currentSeconds = new Date().getTime() / 1000;
     const data = await Client.update({
       TableName: this.table,
@@ -34,7 +33,7 @@ export default class CounterProvider {
         ':exptime': Math.round(currentSeconds + this.counterExpireMinutes * 60),
       },
       ReturnValues: 'ALL_NEW',
-    }).promise();
+    });
 
     const expireSeconds = data.Attributes.exptime;
 
@@ -50,7 +49,9 @@ export default class CounterProvider {
     };
 
     if (expireSeconds < currentSeconds) {
-      const expireTime = Math.round(currentSeconds + this.counterExpireMinutes * 60);
+      const expireTime = Math.round(
+        currentSeconds + this.counterExpireMinutes * 60,
+      );
 
       await Client.update({
         TableName: this.table,
@@ -68,7 +69,7 @@ export default class CounterProvider {
           ':exptime': expireTime,
         },
         ReturnValues: 'ALL_NEW',
-      }).promise();
+      });
 
       counterItem.count = 0;
       counterItem.suspiciousCount = 1;
@@ -77,9 +78,7 @@ export default class CounterProvider {
     return counterItem;
   }
 
-  async increment(
-    id: string,
-  ): Promise<CounterItem> {
+  async increment(id: string): Promise<CounterItem> {
     const currentSeconds = new Date().getTime() / 1000;
     const data = await Client.update({
       TableName: this.table,
@@ -96,7 +95,7 @@ export default class CounterProvider {
         ':exptime': Math.round(currentSeconds + this.counterExpireMinutes * 60),
       },
       ReturnValues: 'ALL_NEW',
-    }).promise();
+    });
 
     const expireSeconds = data.Attributes.exptime;
 
@@ -112,7 +111,9 @@ export default class CounterProvider {
     };
 
     if (expireSeconds < currentSeconds) {
-      const expireTime = Math.round(currentSeconds + this.counterExpireMinutes * 60);
+      const expireTime = Math.round(
+        currentSeconds + this.counterExpireMinutes * 60,
+      );
 
       await Client.update({
         TableName: this.table,
@@ -130,7 +131,7 @@ export default class CounterProvider {
           ':exptime': expireTime,
         },
         ReturnValues: 'ALL_NEW',
-      }).promise();
+      });
 
       counterItem.count = 1;
       counterItem.suspiciousCount = 0;
@@ -139,16 +140,14 @@ export default class CounterProvider {
     return counterItem;
   }
 
-  async get(
-    id: string,
-  ): Promise<CounterItem> {
+  async get(id: string): Promise<CounterItem> {
     const currentSeconds = new Date().getTime() / 1000;
     const data = await Client.get({
       TableName: this.table,
       Key: {
         id,
       },
-    }).promise();
+    });
 
     return {
       id,
